@@ -25,7 +25,7 @@ SECRET_KEY = '4^f^ipj4p)r99%$5re#@(zs0mq#l-l6ei=-oh!(uld2$29*xjt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["django-ajax-opencv.onrender.com"]
 
 
 # Application definition
