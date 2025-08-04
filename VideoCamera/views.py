@@ -64,7 +64,7 @@ def ajax_video_camera_image_function(request):
     results = {}
     if request.accepts("application/json"):
         try:
-            capture = cv2.VideoCapture(-1);
+            capture = cv2.VideoCapture(0,cv2.CAP_GSTREAMER);
             ret, frame = capture.read();
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY);
             _, jpeg = cv2.imencode('.jpg', gray);
