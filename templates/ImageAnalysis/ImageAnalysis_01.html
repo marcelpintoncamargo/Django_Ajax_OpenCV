@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<head>
+    <title>Slider Image 01</title>
+    <link rel="icon" href="{% static '../media/paw_color02_inverse.jpg' %}" > 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!--Scroll bar-->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/scroll_bar.css' %}">  
+    <!--JQuery Javascript-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Font Awesome icons !!!-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:700,300"/>
+
+    <!-- Open CV .js !!!-->
+    <script src="https://cdn.jsdelivr.net/gh/wallat/compiled-opencvjs/v4.2.0/opencv.js" async onload="onOpenCvReady();" type="text/javascript"></script>
+
+</head>
+
+<style>
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+
+*{
+    margin:0;
+    padding:0;  
+}
+
+.button_style_01.small  {
+    width: 200px;
+    height: 70px;
+    background: #f3f0f1;
+    {#background: #f3f0f1;#}
+    border-radius: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+  
+.button_style_01.small  {
+    line-height: 70px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14pt;
+    font-weight: bold;
+    color: #6f6cde;
+  }
+
+.button_style_01.small:hover {
+    color:rgb(88, 245, 68);
+    opacity: 1;
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
+
+}
+.button_style_01.small:active {
+    opacity: 1;
+    box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5), inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+    color:rgb(88, 245, 68);
+}
+
+.top{
+    position:relative;
+    width: 100%;
+    min-height: 40px;
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content:space-evenly;
+    background-color: #660000;
+}
+
+#label_green_led_01, #label_green_led_02, #label_green_led{
+    position:relative;
+    display: block;
+    color: #ffec98;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20pt;
+}
+
+
+body{
+    background-color: blueviolet;
+}
+
+.container_01{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    float: left;
+    width: 50%;
+    height: 900px;
+    /* margin-top: 100px;
+    margin-left: 100px; */
+    background-color: rgb(165, 42, 138);
+}
+
+.sub_container_01{
+    position:relative;
+    display:flex;
+    flex-direction: row;
+    justify-content:space-evenly;
+    align-items:center;
+    width: calc(100% - 2px);
+    height: 200px;
+    /* min-height: 100%; */
+    background-color: #660000;
+    font-family: 'Times New Roman', Times, serif;
+    border-top: 2px solid #a03b00;
+    border-bottom: 2px solid #a03b00;
+    border-right: 2px solid #a03b00;
+    
+}
+
+.image_content_01{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* float: left; */
+    width: 660px;
+    height: 500px;
+    /* margin-top: 100px; */
+    /* margin-left: 100px; */
+    margin: auto;
+    background-color: brown;
+}
+.container_02{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    float: right;
+    width: 50%;
+    height: 900px;
+    /* margin-top: 100px;
+    margin-left: 100px; */
+    background-color: rgb(165, 42, 138);
+
+}
+
+.sub_container_02{
+    /* position:relative;
+    display:flex;
+    flex-direction: row;
+    justify-content:space-evenly; */
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto;
+    justify-content:space-evenly;
+    align-items:center;
+    width: calc(100% - 2px);
+    height: 200px;
+    /* min-height: 100%; */
+    background-color: #660000;
+    font-family: 'Times New Roman', Times, serif;
+    border-top: 2px solid #a03b00;
+    border-bottom: 2px solid #a03b00;
+    border-left: 2px solid #a03b00;
+}
+
+.image_content_02{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* float: right; */
+    width: 660px;
+    height: 500px;
+    /* margin-top: 100px;
+    margin-right: 100px; */
+    margin: auto;
+    background-color: brown;
+}
+
+#canvas_01, #canvas_02, #src-image{
+    width: 640px;
+    height: 480px;
+    margin: auto;
+}
+
+
+
+</style>
+
+<body>
+
+
+    <div class="top">
+        <label id = "label_green_led"> Information </label>
+        <label id = "label_green_led"> Control & Automation 01 </label>
+    </div>
+
+    <div class="container_01">
+        <div class="sub_container_01">
+            <p id="loading-opencv-msg">Loading the Opencv ...</p>
+            <input type="file" id="upload_file" class = "button_style_01 small"/>
+        </div>
+        <div class="image_content_01">
+            <img id="src-image" src="" alt="">
+        </div>
+    </div>
+
+    <div class="container_02">
+        <div class="sub_container_02">
+            <button id="canny_filter_id" class = "button_style_01 small"
+            onclick = "canny_filter_function()">Canny Filter</button>
+
+            <button id="gray_space_id" class = "button_style_01 small"
+            onclick = "gray_space_function()">Gray Space</button>
+
+            <button id="gray_space_id" class = "button_style_01 small"
+            onclick = "sobel_filter_function()">Sobel Filter</button>
+
+            <button id="gray_space_id" class = "button_style_01 small"
+            onclick = "laplacian_filter_function()">Laplacian Filter</button>
+
+            <button id="gray_space_id" class = "button_style_01 small"
+            onclick = "scharr_filter_function()">Scharr Filter</button>
+
+            <button id="gray_space_id" class = "button_style_01 small"
+            onclick = "median_filter_function()">Median Filter</button>
+            
+            
+
+        </div>
+        <div class="image_content_02">
+            <canvas id="canvas_02" width="300"/>
+        </div>
+    </div>
+    
+    
+</body>
+
+
+<script>
+
+(function() {
+	var fileUploadEl = document.getElementById('upload_file')
+	var srcImgEl = document.getElementById('src-image')
+
+	fileUploadEl.addEventListener("change", function (e) {
+	  srcImgEl.src = URL.createObjectURL(e.target.files[0]);
+	}, false);
+
+})()
+
+function canny_filter_function(){
+	var source_image = document.getElementById('src-image')
+    console.log(source_image)
+    var source = cv.imread(source_image); // load the image from <img>
+    var destination = new cv.Mat();
+    cv.cvtColor(source, source, cv.COLOR_RGB2GRAY, 0);
+    cv.Canny(source, destination, 50, 100, 3, false);   // You can try more different parameters
+    cv.imshow('canvas_02', destination);                // display the output to canvas
+    source.delete(); // remember to free the memory
+    destination.delete();
+}
+
+function gray_space_function(){
+   var source_image = document.getElementById('src-image')
+   console.log(source_image)
+   var source = cv.imread(source_image); // load the image from <img>
+   var destination = new cv.Mat();
+   cv.cvtColor(source, destination, cv.COLOR_RGB2GRAY, 0);
+   cv.imshow('canvas_02', destination);                // display the output to canvas
+   source.delete(); // remember to free the memory
+   destination.delete();
+}
+
+function sobel_filter_function(){
+	var source_image = document.getElementById('src-image')
+    console.log(source_image)
+    var source = cv.imread(source_image); // load the image from <img>
+    var destination = new cv.Mat();
+    cv.cvtColor(source, source, cv.COLOR_RGB2GRAY, 0);
+    cv.Sobel(source, destination,  cv.CV_8U, 1, 0, 3, 1, 0, cv.BORDER_DEFAULT);   // You can try more different parameters
+    cv.imshow('canvas_02', destination);                // display the output to canvas
+    source.delete(); // remember to free the memory
+    destination.delete();
+}
+
+function laplacian_filter_function(){
+	var source_image = document.getElementById('src-image')
+    console.log(source_image)
+    var source = cv.imread(source_image); // load the image from <img>
+    var destination = new cv.Mat();
+    cv.cvtColor(source, source, cv.COLOR_RGB2GRAY, 0);
+    cv.Laplacian(source, destination,  cv.CV_8U, 3, 1, 0, cv.BORDER_DEFAULT);   // You can try more different parameters
+    cv.imshow('canvas_02', destination);                // display the output to canvas
+    source.delete(); // remember to free the memory
+    destination.delete();
+}
+
+function scharr_filter_function(){
+	var source_image = document.getElementById('src-image')
+    console.log(source_image)
+    var source = cv.imread(source_image); // load the image from <img>
+    var destination = new cv.Mat();
+    cv.cvtColor(source, source, cv.COLOR_RGB2GRAY, 0);
+    cv.Scharr(source, destination,  cv.CV_8U, 1, 0, 1, 0, cv.BORDER_DEFAULT);   // You can try more different parameters
+    cv.imshow('canvas_02', destination);                // display the output to canvas
+    source.delete(); // remember to free the memory
+    destination.delete();
+}
+
+function median_filter_function(){
+	var source_image = document.getElementById('src-image')
+    console.log(source_image)
+    var source = cv.imread(source_image); // load the image from <img>
+    var destination = new cv.Mat();
+    cv.cvtColor(source, source, cv.COLOR_RGB2GRAY, 0);
+    cv.medianBlur(source, destination, 3);   // You can try more different parameters
+    cv.imshow('canvas_02', destination);                // display the output to canvas
+    source.delete(); // remember to free the memory
+    destination.delete();
+}
+
+
+
+
+// opencv loaded?
+window.onOpenCvReady = function () {
+		document.getElementById('loading-opencv-msg').remove();
+}
+
+</script>
+
+</html>

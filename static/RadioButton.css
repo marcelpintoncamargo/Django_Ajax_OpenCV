@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,900;1,300;1,700&display=swap');
+
+ /* Merriweather  Light 300 italic  Bold 700 italic  Black 900 */
+input[type=radio] {
+    display: none;
+}
+input[type=radio]:not(:disabled) ~ label {
+    cursor: pointer;
+}
+input[type=radio]:disabled ~ label {
+    color: #c2bfbc;
+    border-color: #bcc2bf;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+.radio_button {
+    font-family:'Merriweather', serif;
+    /* font-style: italic; */
+    font-weight: bold;
+    font-size: 24px;
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background: white;
+    border: 2px solid #20df80;
+    border-radius: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);
+}
+input[type=radio]:checked + label.radio_button {
+    background: linear-gradient(90deg, #46fab2 0% , #098740 50%, #46fa88 100%);
+    color: white;
+    box-shadow:  0px 0px 5px  5px  rgba(240, 46, 170, 0.4) , 
+				 0px 0px 10px 10px rgba(240, 46, 170, 0.3) , 
+				 0px 0px 15px 15px rgba(240, 46, 170, 0.2) ,   /* box-shadow : h-offset   voffset   blur   spread   color  */
+				 0px 0px 20px 20px rgba(240, 46, 170, 0.1) , 
+				 0px 0px 25px 25px rgba(240, 46, 170, 0.05);
+}
+input[type=radio]#control_05:checked + label.radio_button {
+    background: red;
+    border-color: red;
+}
+input[type=radio]:checked + label.radio_button::after {
+    color: #3d3f43;
+    font-family: FontAwesome;
+    border: 2px solid #1dc973;
+    content: "";
+    font-size: 24px;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);
+}
+.radio_button_02 {
+    font-family:'Merriweather', serif;
+    /* font-style: italic; */
+    font-weight: bold;
+    position: relative;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background: white;
+    border: 2px solid #df2020;
+    border-radius: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 10px -2px rgba(161, 170, 166, 0.5);
+    font-size: 24px;
+}
+input[type=radio]:checked + label.radio_button_02 {
+    background: linear-gradient(90deg, #fce460 0% , #f58c2a 50%, #fce460 100%);
+    color: white;
+    box-shadow:  0px 0px 5px  5px  rgba(240, 46, 170, 0.4) , 
+				 0px 0px 10px 10px rgba(240, 46, 170, 0.3) , 
+				 0px 0px 15px 15px rgba(240, 46, 170, 0.2) ,   /* box-shadow : h-offset   voffset   blur   spread   color  */
+				 0px 0px 20px 20px rgba(240, 46, 170, 0.1) , 
+				 0px 0px 25px 25px rgba(240, 46, 170, 0.05);
+}
+input[type=radio]#control_05:checked + label.radio_button_02 {
+    background: red;
+    border-color: red;
+}
+input[type=radio]:checked + label.radio_button_02::after {
+    color: #3d3f43;
+    font-family: FontAwesome;
+    border: 2px solid #1dc97350;
+    background: linear-gradient(90deg, #fce56050 0% , #f58c2a50 50%, #fce46050 100%);
+    content: "";
+    font-size: 24px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.25);
+}

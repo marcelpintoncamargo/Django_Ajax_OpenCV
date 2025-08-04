@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="">
+{% load static %}
+<head>
+    <title>Ajax Filters</title>
+    <link rel="icon" href="{% static '../media/paw_color02_inverse.jpg' %}" >
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Scroll bar-->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/scroll_bar.css' %}">
+    <!--Font awesome icons .css -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/fontawesome/css/font-awesome.min.css' %}">
+   <!-- Bootstrap font awesome icons !!!-->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+   <!--JQuery Javascript-->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+   <script src="https://apis.google.com/js/client.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'CheckBox.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Containers.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'DropDown.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'DropDown_02.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'PushButtons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'RadioButton.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Sliders.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Sliders_02.css' %}">
+</head>
+
+<style>
+.video_content_01{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* float: left; */
+    width: 660px;
+    height: 500px;
+    /* margin-top: 100px; */
+    /* margin-left: 100px; */
+    margin: auto;
+    background-color: brown;
+}
+
+#canvas_01, #canvas_02{
+    width: 640px;
+    height: 480px;
+    margin: auto;
+    display: flex !important;
+}
+
+</style>
+<body>
+<div id="btn-box" class="sub_container_03">
+    <div class="sub_container_03_01" style="width: 200px;">
+        <input type="radio"  id = "control_00" name="select_class_filter" value="0"  checked >
+        <label for="control_00" class="radio_button" data-filter='HSV'>No Selection</label>
+    </div>
+    <div class="sub_container_03_01">
+        <input type="radio"  id = "control_01" name="select_class_filter" value="1" >
+        <label for="control_01" class="radio_button" data-filter='HSV'>Space Transformation</label>
+    </div>
+    <div class="sub_container_03_01">
+        <input type="radio"  id = "control_02" name="select_class_filter" value="1" >
+        <label for="control_02" class="radio_button" data-filter='HSV'>First Order Filters</label>
+    </div>
+    <div class="sub_container_03_01">
+        <input type="radio"  id = "control_03" name="select_class_filter" value="2" >
+        <label for="control_03" class="radio_button" data-filter='GRAYSCALE'>Second Order Filters</label>
+    </div>
+    <div class="sub_container_03_01">
+        <input type="radio" id = "control_04" name="select_class_filter" value="3"  >
+        <label for="control_04" class="radio_button" data-filter='BLURRED'>Blur Filters</label>
+    </div>
+    <div class="sub_container_03_01">
+        <input type="radio" id = "control_05" name="select_class_filter" value="4"  >
+        <label for="control_05" class="radio_button" data-filter='BLURRED'>Threshold Filters</label>
+    </div>
+</div>
+<div class="sub_container_01">
+    <div class="sub_container_01_01">
+        <div class="sub_container_01_01_01">
+            <label class="label_image">Capture Image</label>
+            <i onclick = "capture_video_image_function()" class="fa fa-camera"></i>
+        </div>
+        <div class="sub_container_01_01_01">
+            <label class="label_image" id="image_address_id" >URL Address</label>
+        </div>
+    </div>
+    <div class="sub_container_01_01">
+        <button id="submit_image_button" class="button_style_01 medium"> Process Image</button>
+    </div>
+    <div class="sub_container_01_01">
+        <button id="save_image_button" class="button_style_01 medium"> Model Save Image</button>
+    </div>
+</div>
+
+<div class="label_container">
+    <div class="label_group">
+        <label class="label_image" id="image_label_input_id"> Image </label>
+    </div>
+    <div class="label_group">
+        <label class="label_image" id="image_label_output_id">Processed Image</label>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="container_img_box">
+        <div class="container_img_box_01">
+            <canvas id="canvas_01" name="profile_image" ></canvas>
+        </div>
+        <div class="container_img_box_01">
+            <canvas id="canvas_02" ></canvas>
+        </div>
+    </div>
+</div>
+
+<div class = "form_container" autocomplete = "off">
+    <div class="sub_container_02">
+        <div class="sub_container_02_01">
+            <label class="label_input">Name</label>
+            <input type="text" class="input" id="id_name" placeholder="Name" autocomplete="off"  required>
+        </div>
+        <div class="sub_container_02_01">
+            <label class="label_input">Description</label>
+            <input type="text" class="input" id="id_description" placeholder="Description" autocomplete="off"  required>
+        </div>
+    </div>
+</div>
+
+<div class="filter_container_01">
+    <div class="sub_group_01_A">
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "original" name="select_filter" value="1" >
+            <label for="original" class="radio_button_02" data-filter='Laplacian'>Original</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "rgb2hsv" name="select_filter" value="1" >
+            <label for="rgb2hsv" class="radio_button_02" data-filter='Laplacian'>RGB2HSV</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "rgb2gray" name="select_filter" value="1" >
+            <label for="rgb2gray" class="radio_button_02" data-filter='Laplacian'>RGB2GRAY</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "red_channel" name="select_filter" value="1" >
+            <label for="red_channel" class="radio_button_02" data-filter='Laplacian'>Red Channel</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "hue_channel" name="select_filter" value="1" >
+            <label for="hue_channel" class="radio_button_02" data-filter='Laplacian'>Hue Channel</label>
+        </div>
+    </div>
+</div>
+
+<div class="filter_container_02">
+    <div class="sub_group_02_A">
+        <div class="sub_group_02_A_01">
+            <div class="tick-slider-style_02">
+                <div class="tick-slider-header-style_02">
+                    <label class="label_slider_style_01" for="inferiorcanny">Inferior Canny</label>
+                </div>
+                <div class="tick-slider-value-container-style02">
+                    <div id="inferiorcanny_label_min" class="tick-slider-label-style_02">0</div>
+                    <div id="inferiorcanny_label_max" class="tick-slider-label-style_02">255</div>
+                    <div id="inferiorcanny_value" class="tick-slider-value-style02"></div>
+                </div>
+                <div class="tick-slider-background"></div>
+                <div id="inferiorcanny_progress" class="tick-slider-progress"></div>
+                <div id="inferiorcanny_ticks" class="tick-slider-tick-container"></div>
+                <input
+                    id="inferiorcanny"
+                    class="tick-slider-input-style02"
+                    type="range"
+                    min="0"
+                    max="255"
+                    step="1"
+                    value="100"
+                    data-tick-step="50"
+                    data-tick-id="inferiorcanny_ticks"
+                    data-value-id="inferiorcanny_value"
+                    data-progress-id="inferiorcanny_progress"
+                    data-handle-size="18"
+                    data-min-label-id="inferiorcanny_label_min"
+                    data-max-label-id="inferiorcanny_label_max"
+                />
+            </div>
+        </div>
+        <div class="sub_group_02_A_01">
+            <div class="tick-slider-style_02">
+                <div class="tick-slider-header-style_02">
+                    <label class="label_slider_style_01" for="superiorcanny">Superior Canny</label>
+                </div>
+                <div class="tick-slider-value-container-style02">
+                    <div id="superiorcanny_label_min" class="tick-slider-label-style_02">0</div>
+                    <div id="superiorcanny_label_max" class="tick-slider-label-style_02">255</div>
+                    <div id="superiorcanny_value" class="tick-slider-value-style02"></div>
+                </div>
+                <div class="tick-slider-background"></div>
+                <div id="superiorcanny_progress" class="tick-slider-progress"></div>
+                <div id="superiorcanny_ticks" class="tick-slider-tick-container"></div>
+                <input
+                    id="superiorcanny"
+                    class="tick-slider-input-style02"
+                    type="range"
+                    min="0"
+                    max="255"
+                    step="1"
+                    value="255"
+                    data-tick-step="50"
+                    data-tick-id="superiorcanny_ticks"
+                    data-value-id="superiorcanny_value"
+                    data-progress-id="superiorcanny_progress"
+                    data-handle-size="18"
+                    data-min-label-id="superiorcanny_label_min"
+                    data-max-label-id="superiorcanny_label_max"
+                />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="sub_group_02_B">
+        <div class="sub_group_02_B_01">
+            <div class="label_slider">
+                <label id="label_range_title">Canny Kernel: &emsp14;</label>
+                <label id="label_range_value" for="range0"><strong style="color: #00deff;"> 5 </strong></label>
+            </div>
+            <input id="range0" type="range" class="style_01" name="range0" min="3" max="7" step="2" value="5">
+        </div>
+        <div class="sub_group_02_B_02">
+            <div class="label_slider">
+                <label id="label_range_title">Kernel value: &emsp14;</label>
+                <label id="label_range_value" for="range1"><strong style="color: #00deff;"> 5 </strong></label>
+            </div>
+            <input id="range1" type="range" class="style_01" name="range1" min="1" max="13" step="2" value="5">
+        </div>
+    </div>
+
+    <div class="sub_group_02_C" >
+        <div class="sub_container_03_02">
+            <input type="radio" id = "first_order_filter_00" name="select_filter" value="0" >
+            <label for="first_order_filter_00" class="radio_button_02" data-filter='Canny'>Canny</label>
+        </div>
+        <div class="sub_container_03_02">
+            <input type="radio" id = "first_order_filter_01" name="select_filter" value="1" checked >
+            <label for="first_order_filter_01" class="radio_button_02" data-filter='Sobel X'>Sobel X</label>
+        </div>
+        <div class="sub_container_03_02">
+            <input type="radio" id = "first_order_filter_02" name="select_filter" value="2"  >
+            <label for="first_order_filter_02" class="radio_button_02" data-filter='Sobel Y'>Sobel Y</label>
+        </div>
+        <div class="sub_container_03_02">
+            <input type="radio" id = "first_order_filter_03" name="select_filter" value="3"  >
+            <label for="first_order_filter_03" class="radio_button_02" data-filter='Sobel X+Y<'>Sobel X+Y</label>
+        </div>
+        <div class="sub_container_03_02">
+            <input type="radio" id = "first_order_filter_04" name="select_filter" value="4"  >
+            <label for="first_order_filter_04" class="radio_button_02" data-filter='Scharr X'>Scharr X</label>
+        </div>
+        <div class="sub_container_03_02">
+            <input type="radio" id = "first_order_filter_05" name="select_filter" value="5"  >
+            <label for="first_order_filter_05" class="radio_button_02" data-filter='Scharr Y'>Scharr Y</label>
+        </div>
+
+    </div>
+
+</div>
+<div class="filter_container_03">
+    <div class="sub_group_03_A">
+        <div class="sub_group_03_A_01">
+            <div class="tick-slider-style_02">
+                <div class="tick-slider-header-style_02">
+                    <label class="label_slider_style_01" for="weight_01">Weight 01</label>
+                </div>
+                <div class="tick-slider-value-container-style02">
+                    <div id="weight_01_label_min" class="tick-slider-label-style_02">0</div>
+                    <div id="weight_01_label_max" class="tick-slider-label-style_02">1</div>
+                    <div id="weight_01_value" class="tick-slider-value-style02"></div>
+                </div>
+                <div class="tick-slider-background"></div>
+                <div id="weight_01_progress" class="tick-slider-progress"></div>
+                <div id="weight_01_ticks" class="tick-slider-tick-container"></div>
+                <input
+                    id="weight_01"
+                    class="tick-slider-input-style02"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value="1"
+                    data-tick-step="0.1"
+                    data-tick-id="weight_01_ticks"
+                    data-value-id="weight_01_value"
+                    data-progress-id="weight_01_progress"
+                    data-handle-size="18"
+                    data-min-label-id="weight_01_label_min"
+                    data-max-label-id="weight_01_label_max"
+                />
+            </div>
+        </div>
+        <div class="sub_group_03_A_02">
+            <div class="tick-slider-style_02">
+                <div class="tick-slider-header-style_02">
+                    <label class="label_slider_style_01" for="weight_02">Weight 02</label>
+                </div>
+                <div class="tick-slider-value-container-style02">
+                    <div id="weight_02_label_min" class="tick-slider-label-style_02">0</div>
+                    <div id="weight_02_label_max" class="tick-slider-label-style_02">1</div>
+                    <div id="weight_02_value" class="tick-slider-value-style02"></div>
+                </div>
+                <div class="tick-slider-background"></div>
+                <div id="weight_02_progress" class="tick-slider-progress"></div>
+                <div id="weight_02_ticks" class="tick-slider-tick-container"></div>
+                <input
+                    id="weight_02"
+                    class="tick-slider-input-style02"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value="1"
+                    data-tick-step="0.1"
+                    data-tick-id="weight_02_ticks"
+                    data-value-id="weight_02_value"
+                    data-progress-id="weight_02_progress"
+                    data-handle-size="18"
+                    data-min-label-id="weight_02_label_min"
+                    data-max-label-id="weight_02_label_max"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="sub_group_03_B">
+        <div class="sub_group_03_B_01">
+            <div class="label_slider">
+                <label id="label_range_title">Sigma value: &emsp14;</label>
+                <label id="label_range_value" for="range2"><strong style="color: #00deff;"> 5 </strong></label>
+            </div>
+            <input id="range2" type="range" class="style_01" name="range2" min="0" max="10" step="0.1" value="1">
+        </div>
+        <div class="sub_group_03_B_02">
+            <div class="label_slider">
+                <label id="label_range_title">Kernel value: &emsp14;</label>
+                <label id="label_range_value" for="range3"><strong style="color: #00deff;"> 5 </strong></label>
+            </div>
+            <input id="range3" type="range" class="style_01" name="range3" min="1" max="13" step="2" value="5">
+        </div>
+
+    </div>
+    <div class="sub_group_03_C" >
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "second_order_filter_01" name="select_filter" value="6"  >
+            <label for="second_order_filter_01" class="radio_button_02" data-filter='Laplacian'>Laplacian</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "second_order_filter_02" name="select_filter" value="7"  >
+            <label for="second_order_filter_02" class="radio_button_02" data-filter='Laplacian of Gaussian'>Laplacian of Gaussian</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "second_order_filter_03" name="select_filter" value="8"  >
+            <label for="second_order_filter_03" class="radio_button_02" data-filter='Sharpenning Laplacian'>Sharpenning Laplacian</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "second_order_filter_04" name="select_filter" value="9"  >
+            <label for="second_order_filter_04" class="radio_button_02" data-filter='Sharpenning Laplacian of Gaussian'>Sharpenning Laplacian of Gaussian</label>
+        </div>
+    </div>
+</div>
+<div class="filter_container_04">
+    <div class="sub_group_04_A">
+        <div class="sub_group_04_A_01">
+            <div class="tick-slider-style_02">
+                <div class="tick-slider-header-style_02">
+                    <label class="label_slider_style_01" for="gaussian_sigma_x">Gaussian Sigma X</label>
+                </div>
+                <div class="tick-slider-value-container-style02">
+                    <div id="gaussian_sigma_x_label_min" class="tick-slider-label-style_02">0</div>
+                    <div id="gaussian_sigma_x_label_max" class="tick-slider-label-style_02">10</div>
+                    <div id="gaussian_sigma_x_value" class="tick-slider-value-style02"></div>
+                </div>
+                <div class="tick-slider-background"></div>
+                <div id="gaussian_sigma_x_progress" class="tick-slider-progress"></div>
+                <div id="gaussian_sigma_x_ticks" class="tick-slider-tick-container"></div>
+                <input
+                    id="gaussian_sigma_x"
+                    class="tick-slider-input-style02"
+                    type="range"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    value="1"
+                    data-tick-step="1"
+                    data-tick-id="gaussian_sigma_x_ticks"
+                    data-value-id="gaussian_sigma_x_value"
+                    data-progress-id="gaussian_sigma_x_progress"
+                    data-handle-size="18"
+                    data-min-label-id="gaussian_sigma_x_label_min"
+                    data-max-label-id="gaussian_sigma_x_label_max"
+                />
+            </div>
+        </div>
+        <div class="sub_group_04_A_02">
+            <div class="tick-slider-style_02">
+                <div class="tick-slider-header-style_02">
+                    <label class="label_slider_style_01" for="gaussian_sigma_y">Gaussian Sigma Y</label>
+                </div>
+                <div class="tick-slider-value-container-style02">
+                    <div id="gaussian_sigma_y_label_min" class="tick-slider-label-style_02">0</div>
+                    <div id="gaussian_sigma_y_label_max" class="tick-slider-label-style_02">10</div>
+                    <div id="gaussian_sigma_y_value" class="tick-slider-value-style02"></div>
+                </div>
+                <div class="tick-slider-background"></div>
+                <div id="gaussian_sigma_y_progress" class="tick-slider-progress"></div>
+                <div id="gaussian_sigma_y_ticks" class="tick-slider-tick-container"></div>
+                <input
+                    id="gaussian_sigma_y"
+                    class="tick-slider-input-style02"
+                    type="range"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    value="1"
+                    data-tick-step="1"
+                    data-tick-id="gaussian_sigma_y_ticks"
+                    data-value-id="gaussian_sigma_y_value"
+                    data-progress-id="gaussian_sigma_y_progress"
+                    data-handle-size="18"
+                    data-min-label-id="gaussian_sigma_y_label_min"
+                    data-max-label-id="gaussian_sigma_y_label_max"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="sub_group_04_B">
+        <div class="sub_group_04_B_01">
+            <label id = "label_filters">MeanFilterOption</label>
+            <div class="checkbox">
+                <input type="checkbox" id="checkbox_01" name="" value=""
+                                           onclick="checkbox_01_value(this)" >
+                <label for="checkbox_01"><span>Checkbox</span></label>
+            </div>
+        </div>
+        <div class="sub_group_04_B_02">
+            <div class="label_slider">
+                <label id="label_range_title">Kernel value: &emsp14;</label>
+                <label id="label_range_value" for="range4"><strong style="color: #00deff;"> 5 </strong></label>
+            </div>
+            <input id="range4" type="range" class="style_01" name="range4" min="1" max="13" step="2" value="5">
+        </div>
+    </div>
+    <div class="sub_group_04_C" >
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "blur_filter_01" name="select_filter" value="10" >
+            <label for="blur_filter_01" class="radio_button_02" data-filter='Gaussian Blur'>Gaussian Blur</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "blur_filter_02" name="select_filter" value="11" >
+            <label for="blur_filter_02" class="radio_button_02" data-filter='Mean Filter'>Mean Filter</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "blur_filter_03" name="select_filter" value="12" >
+            <label for="blur_filter_03" class="radio_button_02" data-filter='Median Filter'>Median Filter</label>
+        </div>
+        <div class="sub_container_radio_button">
+            <input type="radio" id = "blur_filter_04" name="select_filter" value="13" >
+            <label for="blur_filter_04" class="radio_button_02" data-filter='Bilateral Filter'>Bilateral Filter</label>
+        </div>
+
+    </div>
+</div>
+<div class="filter_container_05">
+    <div class="sub_group_05_A">
+        <div class="sub_group_05_A_01">
+            <div class="tick-slider-style_02">
+                <div class="tick-slider-header-style_02">
+                    <label class="label_slider_style_01" for="threshold_value">Threshold Value</label>
+                </div>
+                <div class="tick-slider-value-container-style02">
+                    <div id="threshold_value_label_min" class="tick-slider-label-style_02">0</div>
+                    <div id="threshold_value_label_max" class="tick-slider-label-style_02">255</div>
+                    <div id="threshold_value_value" class="tick-slider-value-style02"></div>
+                </div>
+                <div class="tick-slider-background"></div>
+                <div id="threshold_value_progress" class="tick-slider-progress"></div>
+                <div id="threshold_value_ticks" class="tick-slider-tick-container"></div>
+                <input
+                    id="threshold_value"
+                    class="tick-slider-input-style02"
+                    type="range"
+                    min="0"
+                    max="255"
+                    step="1"
+                    value="100"
+                    data-tick-step="50"
+                    data-tick-id="threshold_value_ticks"
+                    data-value-id="threshold_value_value"
+                    data-progress-id="threshold_value_progress"
+                    data-handle-size="18"
+                    data-min-label-id="threshold_value_label_min"
+                    data-max-label-id="threshold_value_label_max"
+                />
+            </div>
+        </div>
+        <div class="sub_group_05_A_02">
+            <div class="tick-slider-style_02">
+                <div class="tick-slider-header-style_02">
+                    <label class="label_slider_style_01" for="thresh_max_val">Threshold Maximum Value</label>
+                </div>
+                <div class="tick-slider-value-container-style02">
+                    <div id="thresh_max_val_label_min" class="tick-slider-label-style_02">0</div>
+                    <div id="thresh_max_val_label_max" class="tick-slider-label-style_02">255</div>
+                    <div id="thresh_max_val_value" class="tick-slider-value-style02"></div>
+                </div>
+                <div class="tick-slider-background"></div>
+                <div id="thresh_max_val_progress" class="tick-slider-progress"></div>
+                <div id="thresh_max_val_ticks" class="tick-slider-tick-container"></div>
+                <input
+                    id="thresh_max_val"
+                    class="tick-slider-input-style02"
+                    type="range"
+                    min="0"
+                    max="255"
+                    step="1"
+                    value="255"
+                    data-tick-step="50"
+                    data-tick-id="thresh_max_val_ticks"
+                    data-value-id="thresh_max_val_value"
+                    data-progress-id="thresh_max_val_progress"
+                    data-handle-size="18"
+                    data-min-label-id="thresh_max_val_label_min"
+                    data-max-label-id="thresh_max_val_label_max"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="sub_group_05_B">
+        <div class="sub_container_radio_button">
+                <input type="radio" id = "threshold" name="select_filter" value="14" >
+                <label for="threshold" class="radio_button_02">Threshold</label>
+        </div>
+    </div>
+    <div class="sub_group_05_C">
+            <div class="card-drop">
+            <a class='toggle' href="#">
+                <i class='icon-suitcase'></i>
+                <span class='label-active'>Everyting</span>
+            </a>
+            <ul class="dropdown_style_01">
+                <li class='active'>
+                    <a data-label="cv2.THRESH_BINARY" href="#"><i class='icon-suitcase'></i>cv2.THRESH_BINARY</a>
+                </li>
+                <li>
+                    <a data-label="cv2.THRESH_BINARY_INV" href="#"><i class='icon-magic'></i>cv2.THRESH_BINARY_INV</a>
+                </li>
+                <li >
+                    <a data-label="cv2.THRESH_TRUNC" href="#"><i class='icon-bolt'></i>cv2.THRESH_TRUNC</a>
+                </li>
+                <li>
+                    <a data-label="cv2.THRESH_TOZERO" href="#"><i class='icon-tint'></i>cv2.THRESH_TOZERO</a>
+                </li>
+                <li>
+                    <a data-label="cv2.THRESH_TOZERO_INV" href="#"><i class='icon-camera-retro'></i>cv2.THRESH_TOZERO_INV</a>
+                </li>
+                <li>
+                    <a data-label="cv2.THRESH_OTSU" href="#"><i class='icon-camera-retro'></i>cv2.THRESH_OTSU</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="{% static 'CheckBox.js' %}"></script>
+<script src="{% static 'Sliders.js' %}"></script>
+<script src="{% static 'Sliders_02.js' %}"></script>
+<script src="{% static 'DropDown_02.js' %}"></script>
+<script>
+
+$('input[type="range"].tick-slider-input-style02').on('input', function() {
+    console.log('input type range id enabled: ' , $(this).attr('id'))
+    console.log($(this).attr('id') + " has value:" , $(this).val())
+});
+
+
+$('input[type="range"].style_01').on('input', function() {
+
+    console.log('input type range id enabled: ' , $(this).attr('id'))
+    console.log($(this).attr('id') + " has value:" , $(this).val())
+
+  // var selected_id = $('input[type="range"].style_01:focus').attr('id')
+  // var range_value = $('input[type="range"].style_01:focus').val()
+  // range_active = $("[name='range1']:focus").previous('label').text();
+  var selected_id = $(this).attr('id')
+  var range_value = $(this).val()
+
+
+  if ($("label[for='"+ selected_id +"']").find('strong')) {
+
+      $("label[for='"+ selected_id +"'] strong").remove()
+  }
+
+  $("label[for='"+ selected_id +"']").append("<strong style='color: #00deff;'>"+range_value+"</strong>")
+
+//  console.log('Range 00: ',  $('#range0').val())
+//  console.log('Range 01: ',  $('#range1').val())
+//   console.log('Range 02: ',  $('#range2').val())
+//   console.log('Range 03: ',  $('#range3').val())
+  var range_label = $("label[for='"+ selected_id +"']").text()
+  console.log('label : ', range_label)
+  console.log('value : ', range_value)
+
+});
+
+
+$('.card-drop').on('click', function() {
+    console.log('oi')
+    var filter_thresh_name = $('.dropdown_style_01 li.active a').text()
+    // var filter_thresh_name = $('.dropdown_style_01 li.active a').attr('data-label')
+
+    console.log(filter_thresh_name)
+    choose_filter()
+});
+
+var filter_class
+var filter_name
+
+function choose_filter(){
+    var selected_id = $('input[type="radio"]:checked').attr('id')
+    filter_class = $("label[for='"+ selected_id +"']").text()
+    //filter_class = $("[name='select_class_filter']:checked").next('label').text();
+    filter_name = $("[name='select_filter']:checked").next('label').text();
+
+    if ((filter_class != "No Selection") && (filter_class != "Threshold Filters")){
+
+        if ($('#image_label_output_id').find('strong')) {
+            $('#image_label_output_id strong').remove()
+        }
+
+        $('#image_label_output_id').append("<strong>Filter class : "+filter_class+" <br> " +
+                                                " Filter name :"+filter_name+"</strong>")
+    }
+    else if (filter_class == "Threshold Filters"){
+
+        if ($('#image_label_output_id').find('strong')) {
+            $('#image_label_output_id strong').remove()
+        }
+
+        var filter_thresh_name = $('.dropdown_style_01 li.active a').text()
+
+        $('#image_label_output_id').append("<strong>Filter class : "+filter_class+" <br> " +
+                                                " Filter name :"+filter_thresh_name+"</strong>")
+    }
+
+    if (filter_class == "Space Transformation") {
+        $(".filter_container_01").css("margin-top", "0px")
+        $(".filter_container_02").css("margin-top", "-200px")
+        $(".filter_container_03").css("margin-top", "-200px")
+        $(".filter_container_04").css("margin-top", "-200px")
+        $(".filter_container_05").css("margin-top", "-200px")
+        $(".sub_container_03").css("margin-top", "210px")
+    }
+    else if (filter_class == "First Order Filters"){
+        $(".filter_container_01").css("margin-top", "-200px")
+        $(".filter_container_02").css("margin-top", "0px")
+        $(".filter_container_03").css("margin-top", "-200px")
+        $(".filter_container_04").css("margin-top", "-200px")
+        $(".filter_container_05").css("margin-top", "-200px")
+        $(".sub_container_03").css("margin-top", "210px")
+
+    }
+    else if (filter_class == "Second Order Filters"){
+        $(".filter_container_01").css("margin-top", "-200px")
+        $(".filter_container_02").css("margin-top", "-200px")
+        $(".filter_container_03").css("margin-top", "0px")
+        $(".filter_container_04").css("margin-top", "-200px")
+        $(".filter_container_05").css("margin-top", "-200px")
+        $(".sub_container_03").css("margin-top", "210px")
+    }
+    else if (filter_class == "Blur Filters"){
+        $(".filter_container_01").css("margin-top", "-200px")
+        $(".filter_container_02").css("margin-top", "-200px")
+        $(".filter_container_03").css("margin-top", "-200px")
+        $(".filter_container_04").css("margin-top", "0px")
+        $(".filter_container_05").css("margin-top", "-200px")
+        $(".sub_container_03").css("margin-top", "210px")
+    }
+    else if (filter_class == "Threshold Filters"){
+        $(".filter_container_01").css("margin-top", "-200px")
+        $(".filter_container_02").css("margin-top", "-200px")
+        $(".filter_container_03").css("margin-top", "-200px")
+        $(".filter_container_04").css("margin-top", "-200px")
+        $(".filter_container_05").css("margin-top", "0px")
+        $(".sub_container_03").css("margin-top", "210px")
+    }
+    else if (filter_class == "No Selection"){
+        $(".filter_container_01").css("margin-top", "-200px")
+        $(".filter_container_02").css("margin-top", "-200px")
+        $(".filter_container_03").css("margin-top", "-200px")
+        $(".filter_container_04").css("margin-top", "-200px")
+        $(".filter_container_05").css("margin-top", "-200px")
+        $(".sub_container_03").css("margin-top", "10px")
+    }
+}
+
+$(window).on('load', function(){
+    choose_filter()
+});
+
+$('input[type="radio"]').on('change', function() {
+    console.log('input type radio value: \n', $(this).val())
+    console.log( 'input type radio checked : \n', $('input[type="radio"]:checked'))
+    console.log( 'input type radio checked id : \n', $('input[type="radio"]:checked').attr('id'))
+
+    var selected_id = $('input[type="radio"]:checked').attr('id')
+    console.log('label of input type radio checked : \n'  , $("label[for='"+ selected_id +"']").text())
+    console.log('label of input type radio checked : \n' , $('input[type="radio"]:checked').next('label').text())
+    console.log('label of input type radio checked : \n' , $("label[for='"+$(this).attr("id")+"']").text());
+
+    choose_filter()
+})
+
+const alertBox = document.getElementById('alert-box')
+
+// These are the elements inside my form !!!
+const img_name = document.getElementById('id_name')
+const img_description = document.getElementById('id_description')
+
+
+
+var _URL = window.URL || window.webkitURL;
+var img, image_width, image_height
+
+function capture_video_image_function(){
+    var cap_image = $.ajax({
+    // This info will cames from  get_counties_function in views.py
+    //url:'http://127.0.0.1:8000/videocamera_path/ajax_video_camera_image_path',
+    url: "{% url 'ajax_video_camera_image_name' %}",
+    type:'GET',
+    cache: false,
+    dataType: "json",
+    //dataType: "image/jpeg",
+    success: function(response){
+        console.log("Image successfully loaded.")
+        console.log(response)
+    },
+    error: function(xhr){
+        console.log('Not successfull')
+        alert(xhr.statusText)
+    }
+});
+
+$.when(cap_image).done(function(){
+    var output_image = cap_image.responseJSON
+    console.log('output_image', output_image)
+    console.log('output_image', output_image.results)
+    var red_channel   = cap_image.responseJSON.red_channel
+    var green_channel = cap_image.responseJSON.green_channel
+    var blue_channel  = cap_image.responseJSON.blue_channel
+
+
+    // create an offscreen canvas
+    // var canvas=document.createElement("canvas");    // Creating an element canvas !
+    var canvas = document.getElementById('canvas_01');    // Calling canvas of the body !
+    var ctx = canvas.getContext("2d");
+
+    // size the canvas to your desired image
+    canvas.width=640;
+    canvas.height=480;
+
+    // ctx.getImageData(sx, sy, sw, sh);
+    // sx --> The x-axis coordinate of the top-left corner of the rectangle from which the ImageData will be extracted.
+    // sy --> The y-axis coordinate of the top-left corner of the rectangle from which the ImageData will be extracted.
+    // sw --> The width of the rectangle from which the ImageData will be extracted. Positive values are to the right, and negative to the left.
+    // sh --> The height of the rectangle from which the ImageData will be extracted. Positive values are down, and negative are up.
+
+    // get the imageData and pixel array from the canvas
+    var imgData=ctx.getImageData(0,0,640,480);
+    var data = imgData.data;
+
+    console.log('Image length: ', data.length) // 640 x 480 x 4 = 1228800 pixels
+    console.log(imgData)
+    console.log(data)
+
+
+    // manipulate some pixel elements for Gray images !!!
+        // for(var i=0;i<data.length;i+=4){
+        //     var x = i/4
+        //     //console.log(x)
+        //     data[i]   = output_image[x]    // 255 ;       // set red pixel
+        //     data[i+1] = output_image[x]    // 0 ;         // set green pixel
+        //     data[i+2] = output_image[x]    // 255 ;       // set blue pixel
+        //     data[i+3] = 255               // 255;        // make this pixel opaque
+        // }
+
+        // manipulate some pixel elements for RGB images !!!
+     for(var i=0;i<data.length;i+=4){
+         var x = i/4
+         var y = x + (data.length/4)
+         var z = y + (data.length/4)
+         //console.log(x)
+         data[i]   = red_channel[x]      // 255 ;       // set red pixel
+         data[i+1] = green_channel[x]    // 0 ;         // set green pixel
+         data[i+2] = blue_channel[x]    // 255 ;       // set blue pixel
+         data[i+3] = 255                  // 255;        // make this pixel opaque
+     }
+    // put the modified pixels back on the canvas
+    ctx.putImageData(imgData,0,0);
+
+
+    // // This part of script is only be used if I create a new element canvas !!!
+    // // create a new img object
+    // var image = new Image();
+    // // set the img.src to the canvas data url
+    // image.src=canvas.toDataURL();
+    // // append the new img object to the page
+    // document.body.appendChild(image);
+});
+};
+
+
+$('#submit_image_button').on('click', function() {
+    var canvas = document.getElementById('canvas_01');
+    var ctx = canvas.getContext('2d');
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	const data = imageData.data;
+    var dataURL = canvas.toDataURL("image/jpeg", 1.0);
+
+    console.log('dataURL', dataURL)
+    console.log(img_description.value)
+    console.log(img_name.value)
+
+    // First Order Filters
+    var lim_inf_canny = $("input[type='range'][id$='inferiorcanny']").val()
+    var lim_sup_canny = $("input[type='range'][id$='superiorcanny']").val()
+    var kernel_canny = $('#range0').val()
+    var kernel_first_order = $('#range1').val()
+
+    // Second Order Filters
+    var sigma_laplace_of_gaussian = $('#range2').val()
+    var kernel_second_order = $('#range3').val()
+    var sharp_laplacian_w1 = $("input[type='range'][id$='weight_01']").val()
+    var sharp_laplacian_w2 = $("input[type='range'][id$='weight_02']").val()
+    var sharp_laplacian_alpha = 1
+
+    // Blur Filters
+    var kernel_blur = $('#range4').val()
+    var sigma_x_blur = $("input[type='range'][id$='gaussian_sigma_x']").val()
+    var sigma_y_blur = $("input[type='range'][id$='gaussian_sigma_y']").val()
+
+    var mean_filter_option
+
+    // Threshold Filters
+    var threshold_name = $('.dropdown_style_01 li.active a').text()
+    var threshold_value = $("input[type='range'][id$='threshold_value']").val()
+    var threshold_max_value = $("input[type='range'][id$='thresh_max_val']").val()
+
+    if($('#checkbox_01').prop('checked')) {
+        mean_filter_option = 'True'
+        console.log('mean_filter_option', mean_filter_option)
+    }
+    else {
+        mean_filter_option = 'False'
+        console.log('mean_filter_option', mean_filter_option)
+    }
+
+    var cap_image = $.ajax({
+        type :'POST',
+        //url:'http://127.0.0.1:8000/filters_path_02',
+        url:"{% url 'filters_02_name' %}",
+        //dataType: "json",
+        cache: false,
+        // enctype: 'multipart/form-data',
+        data: {
+            'name': img_name.value,
+            'description' : img_description.value,
+            'filter_class' : filter_class,
+            'filter_name' : filter_name,
+            'image': dataURL,
+            // First Order Filters
+            'kernel_first_order':kernel_first_order,
+            'kernel_canny':kernel_canny,
+            'lim_inf_canny':lim_inf_canny,
+            'lim_sup_canny':lim_sup_canny,
+            'kernel_second_order':kernel_second_order,
+            // Second Order Filters
+            'sigma_laplace_of_gaussian':sigma_laplace_of_gaussian,
+            'sharp_laplacian_w1':sharp_laplacian_w1,
+            'sharp_laplacian_w2':sharp_laplacian_w2,
+            'sharp_laplacian_alpha':sharp_laplacian_alpha,
+            // Blur Filters
+            'kernel_blur': kernel_blur,
+            'sigma_x_blur': sigma_x_blur,
+            'sigma_y_blur': sigma_y_blur,
+            'mean_filter_option':mean_filter_option,
+            // Threshold Filters
+            'threshold_name': threshold_name,
+            'threshold_value': threshold_value,
+            'threshold_max_value': threshold_max_value,
+        },
+        success: function(response){
+            console.log('Response: \n', response )
+        },
+        error: function(error){
+            console.log(error)
+        },
+    })
+
+    $.when(cap_image).done(function(){
+        var output_image = cap_image.responseJSON
+        console.log('output_image', output_image)
+        console.log('output_image', output_image.results)
+        var red_channel   = cap_image.responseJSON.red_channel
+        var green_channel = cap_image.responseJSON.green_channel
+        var blue_channel  = cap_image.responseJSON.blue_channel
+
+        var canvas_02 = document.getElementById("canvas_02");
+        var ctx_02 = canvas_02.getContext('2d', { willReadFrequently: true });
+        canvas_02.style.width  =  640 + "px";
+        canvas_02.style.height = 480 + "px";
+        canvas_02.width = 640
+        canvas_02.height = 480
+        canvas_02.top = canvas_02.offsetTop
+        canvas_02.left = canvas_02.offsetLeft
+
+        // get the imageData and pixel array from the canvas
+        // var imgData_02 = ctx_02.getImageData(0,0,image_width,image_height);
+        var imgData_02 = ctx_02.getImageData(0,0,640,480);
+        var data_02 = imgData_02.data;
+
+        console.log('Image length: ', data_02.length) // 640 x 480 x 4 = 1228800 pixels
+        console.log('imgData_02', imgData_02)   // ImageData {data: Uint8ClampedArray(1228800), width: 640, height: 480, colorSpace: 'srgb'}
+        console.log('data_02', data_02)         // Uint8ClampedArray(1228800)
+
+        // manipulate some pixel elements for Gray images !!!
+        // for(var i=0;i<data_02.length;i+=4){
+        //     var x = i/4
+        //     //console.log(x)
+        //     data_02[i]   = output_image[x]    // 255 ;       // set red pixel
+        //     data_02[i+1] = output_image[x]    // 0 ;         // set green pixel
+        //     data_02[i+2] = output_image[x]    // 255 ;       // set blue pixel
+        //     data_02[i+3] = 255               // 255;        // make this pixel opaque
+        // }
+
+        // manipulate some pixel elements for RGB images !!!
+        for(var i=0;i<data_02.length;i+=4){
+            var x = i/4
+            var y = x + (data_02.length/4)
+            var z = y + (data_02.length/4)
+            //console.log(x)
+            data_02[i]   = red_channel[x]      // 255 ;       // set red pixel
+            data_02[i+1] = green_channel[x]    // 0 ;         // set green pixel
+            data_02[i+2] = blue_channel[x]    // 255 ;       // set blue pixel
+            data_02[i+3] = 255                  // 255;        // make this pixel opaque
+        }
+
+        // put the modified pixels back on the canvas
+        ctx_02.putImageData(imgData_02,0,0);
+
+
+    })
+});
+
+$('#save_image_button').on('click', function() {
+    var canvas = document.getElementById('canvas_02');
+    var ctx = canvas.getContext('2d', { willReadFrequently: true });
+	const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+	const data = imageData.data;
+    var dataURL = canvas.toDataURL("image/jpeg", 1.0);
+
+    // const img_data = $(this)[0].files[0] ;
+    //const url = URL.createObjectURL(data);              // Update the url with the image !!!
+
+    console.log('dataURL', dataURL)
+    //console.log('url', url)
+    console.log(img_description.value)
+    console.log(img_name.value)
+
+    var save_image = $.ajax({
+        type :'POST',
+        //url:'http://127.0.0.1:8000/filters_path_03',
+        url:"{% url 'filters_03_name' %}",
+        //dataType: "json",
+        cache: false,
+        // enctype: 'multipart/form-data',
+        data: {
+            'image': dataURL,
+            'name': img_name.value,
+            'description' : img_description.value,
+        },
+
+        success: function(response){
+            //console.log('oi')
+            console.log('Response: \n', response )
+        },
+        error: function(error){
+            console.log(error)
+        },
+    })
+
+    $.when(save_image).done(function() {
+        var output_image = save_image.responseJSON
+        console.log('output_image', output_image)
+    })
+})
+
+
+</script>

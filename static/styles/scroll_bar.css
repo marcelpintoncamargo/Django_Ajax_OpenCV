@@ -1,0 +1,80 @@
+::-webkit-scrollbar {
+   width: 20px;
+   height: 20px;
+   background-color: #50c878;
+}
+  
+::-webkit-scrollbar-thumb {
+   width: 16px;
+   #background-color: #50c878
+   border: 10px solid #50c878;
+   border-radius: 25px;
+   background-image: -webkit-linear-gradient(0deg, rgba(219, 58, 22, 1) 0% , rgba(219, 127, 0, 1) 25%,
+			 rgba(255, 215, 0, 1) 50%  , rgba(219, 127, 0, 1) 75% ,rgba(219, 58, 22, 1) 100%)
+}
+											 				  
+::-webkit-scrollbar-track {
+   
+   width: 20px;
+   background-color: #50c878;  
+}
+
+/* Buttons */
+::-webkit-scrollbar-button:single-button {
+   background-color: #50c878;
+   display: block;
+   border: 3px solid #50c878;
+   height: 15px;
+   width: 15px;
+}
+/* Up */
+::-webkit-scrollbar-button:single-button:vertical:decrement {  
+   border-right:10px solid transparent;  
+   border-bottom:10px solid rgba(255,0,0,1);
+   border-left: 10px solid transparent; 
+   border-bottom-left-radius: 6px  ; 
+   border-bottom-right-radius: 6px ;
+}
+
+::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+     border-color: transparent transparent #ffff00 transparent;
+} 
+/* Down */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+   border-right:10px solid transparent;  
+   border-top:10px solid rgba(255,0,0,1);
+   border-left: 10px solid transparent; 
+   border-top-left-radius: 6px  ; 
+   border-top-right-radius: 6px ;
+ }
+
+::-webkit-scrollbar-button:single-button:vertical:increment:hover {
+     border-color: #ffff00 transparent transparent transparent;
+ }
+
+/*Left*/
+::-webkit-scrollbar-button:single-button:horizontal:decrement {  
+   border-top:10px solid transparent;  
+   border-right:10px solid rgba(255,0,0,1);
+   border-bottom: 10px solid transparent; 
+   border-bottom-right-radius: 6px  ; 
+   border-top-right-radius: 6px ;
+}
+::-webkit-scrollbar-button:single-button:horizontal:decrement:hover {
+     border-color: transparent #ffff00 transparent transparent;
+}
+
+/*Right*/
+::-webkit-scrollbar-button:single-button:horizontal:increment {  
+   border-top:10px solid transparent;  
+   border-left:10px solid rgba(255,0,0,1);
+   border-bottom: 10px solid transparent; 
+   border-bottom-left-radius: 6px  ; 
+   border-top-left-radius: 6px ;}
+
+::-webkit-scrollbar-button:single-button:horizontal:increment:hover {
+     border-color: transparent transparent transparent #ffff00 ;}
+
+
+
+

@@ -1,0 +1,42 @@
+.button_style_01.super_small  {
+    width: 100px !important;
+    height: 70px !important;
+}
+.button_style_01.medium  {
+    width: 200px !important;
+    height: 80px !important;
+}
+.button_style_01.big  {
+    width: 300px !important;
+    height: 130px !important;
+}
+.button_style_01.small , .button_style_01.medium , .button_style_01.super_small, .button_style_01.big {
+    width: 200px;
+    height: 70px;
+    background: #f3f0f1;
+    border-radius: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    z-index: 99;
+}
+.button_style_01.small, .button_style_01.super_small, .button_style_01.medium, .button_style_01.big    {
+    line-height: 25px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14pt;
+    font-weight: semibold;
+    color: #6f6cde;
+}
+.button_style_01.small:hover, .button_style_01.super_small:hover, .button_style_01.medium:hover,
+.button_style_01.big:hover,
+.button_style_01.small.active, .button_style_01.super_small.active,
+.button_style_01.medium.active, .button_style_01.big.active{
+    color:rgb(88, 245, 68);
+    opacity: 1;
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
+}
+.button_style_01.small:active, .button_style_01.super_small:active, .button_style_01.medium:active {
+    opacity: 1;
+    box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5), inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+    color:rgb(88, 245, 68);
+}

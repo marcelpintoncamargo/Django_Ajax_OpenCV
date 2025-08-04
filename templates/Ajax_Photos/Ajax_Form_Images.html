@@ -1,0 +1,14 @@
+{% extends "Ajax_Photos/Ajax_base.html" %}
+
+{% block content %}
+<div class="mnt-3">
+    <div id="alert-box"></div>
+    <div id="img-box"></div>
+    <form id = "p-form" autocomplete = "off"> <!-- Do not need declare action with the path name of url -->
+        {% csrf_token %}
+         <!-- This info came from views.py -->
+        <button type="submit" class="btn btn-primary"> Send </button>
+    </form>
+</div>
+Hello world
+{% endblock content %}
