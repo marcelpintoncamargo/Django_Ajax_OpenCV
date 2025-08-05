@@ -51,6 +51,9 @@
     margin: auto;
     display: flex !important;
 }
+#myVideo{
+    display: none;
+}
 
 </style>
 <body>
@@ -84,7 +87,8 @@
     <div class="sub_container_01_01">
         <div class="sub_container_01_01_01">
             <label class="label_image">Capture Image</label>
-            <i onclick = "capture_video_image_function()" class="fa fa-camera"></i>
+            <i onclick = "getVideo()" class="fa fa-camera"></i>
+            <!-- <i onclick = "capture_video_image_function()" class="fa fa-camera"></i> -->
         </div>
         <div class="sub_container_01_01_01">
             <label class="label_image" id="image_address_id" >URL Address</label>
@@ -111,7 +115,9 @@
 <div class="container">
     <div class="container_img_box">
         <div class="container_img_box_01">
-            <canvas id="canvas_01" name="profile_image" ></canvas>
+            <canvas id="canvas_01" width="640" height="480" name="profile_image" ></canvas>
+            <video  id="myVideo" width="640" height="480"></video>
+            
         </div>
         <div class="container_img_box_01">
             <canvas id="canvas_02" ></canvas>
@@ -823,6 +829,57 @@ $.when(cap_image).done(function(){
 });
 };
 
+var myVideoStream = document.getElementById('myVideo') // My video is stored in a invisible canvas !
+var myStoredInterval = 0
+  
+function getVideo(){
+  navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  navigator.getMedia({video: true, audio: false},
+                     
+    function(stream) {
+      myVideoStream.srcObject = stream   
+      myVideoStream.play();
+
+      setTimeout(() => {
+      stream.getTracks().forEach(track => {
+        if (track.readyState == 'live' && track.kind === 'video') {
+          takeSnapshot()
+          track.stop();
+        }
+      });
+    }, 100);
+  }, 
+                     
+   function(error) {
+     alert('webcam not working');
+  });
+
+}
+
+function takeSnapshot() {
+   var myCanvasElement = document.getElementById('canvas_01');
+   var myCTX = myCanvasElement.getContext('2d');
+   myCTX.drawImage(myVideoStream, 0, 0, myCanvasElement.width, myCanvasElement.height); 
+
+//    var image = myCTX.getImageData(0, 0, myCanvasElement.width, myCanvasElement.height);
+//     console.log(image.data.length);
+//     console.log(image);
+//     var channels = image.data.length/4;
+//     for(var i=0;i<channels;i++){
+//         var r = image.data[i*4 + 0];
+//         var g = image.data[i*4 + 1];
+//         var b = image.data[i*4 + 2];
+//         var gray =  Math.round(0.21*r + 0.72*g + 0.07*b);
+//         image.data[i*4 + 0] = gray;
+//         image.data[i*4 + 1] = gray;
+//         image.data[i*4 + 2] = gray;
+//     }
+
+//     console.log(image);
+//     //myCTX.putImageData(image, 0, 0);
+//     myCTX.putImageData(image.toDataURL(), 0, 0, myCanvasElement.width, myCanvasElement.height);
+//     // imcanvas.drawImage();
+}
 
 $('#submit_image_button').on('click', function() {
     var canvas = document.getElementById('canvas_01');
